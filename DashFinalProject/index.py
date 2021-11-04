@@ -8,18 +8,12 @@ Also this file is very standard:
 import dash
 from dash import dcc
 from dash import html
-import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
-import plotly.graph_objs as go
 import plotly.express as px
-import numpy as np
 import pandas as pd
-import glob
-import os
+import math
 
-image_directory = '/static/C:/Users/dell/Documents/ITI/DashFinalProject/background.jpg'
-list_of_images = [os.path.basename('background.jpg') for x in glob.glob('{}*.png'.format(image_directory))]
-static_image_route = '/static/'
+static_image_route = '/static/heart.jpg'
 # initialize Dash
 external_stylesheets = "assets\\bWLwgP.css"
 # external_stylesheets=[external_stylesheets]
@@ -28,6 +22,7 @@ app = dash.Dash()
 # Dataset Operations
 data = pd.read_csv("data\\heart_failure_clinical_records_dataset.csv")
 # print(data.head())
+total_count = data['DEATH_EVENT'].count()
 death_count = data['DEATH_EVENT'].sum()
 male_death_count = data[(data['DEATH_EVENT'] == 1) & (data['sex'] == 1)]['sex'].sum()
 smokers_death_count = data[(data['DEATH_EVENT'] == 1) & (data['smoking'] == 1)]['smoking'].sum()
@@ -62,49 +57,52 @@ app.layout = html.Div([
     # html.Title("Dash Final Project"),
     # Header Div Design
     html.Div(className="header", children=[
-        html.Img(src=image_directory),
         html.P("Heart Failure Prediction",
                style={'color': 'white', 'font-size': '40px', 'text-align': 'center'}),
         html.P("clinical features for predicting death events",
                style={'color': 'white', 'font-size': '20px', 'text-align': 'center'})
-    ]),
+    ], style={
+        #'background-image': 'url("/assets/background.jpg")','background-size': 'cover'
+    }),
 
     # Summary Div Design
     html.Div(className="graphs-summary", children=[
         html.Div(className="summary-1", children=[
             html.H6('Total Deaths', className='my-class', style={'color': 'white'}),
-            html.H5(death_count, className='my-class', style={'color': 'white'})],
+            html.H5(str(math.floor(death_count/total_count*100))+" %", className='my-class', style={'color': 'white'})],
                  style={'margin': 5, 'width': 150, 'border-radius': '15px 50px',
                         'backgroundColor': '#3EB595', 'float': 'left', 'padding': 5}),
 
         html.Div(className="summary-1", children=[
             html.H6('Male Deaths', className='my-class', style={'color': 'white'}),
-            html.H5(male_death_count, className='my-class', style={'color': 'white'})],
+            html.H5(str(math.floor(male_death_count/total_count*100))+" %", className='my-class', style={'color': 'white'})],
                  style={'margin': 5, 'width': 150, 'border-radius': '15px 50px',
                         'backgroundColor': '#F2C53D', 'float': 'left', 'padding': 5}),
 
         html.Div(className="summary-1", children=[
             html.H6('Smokers Deaths', className='my-class', style={'color': 'white'}),
-            html.H5(smokers_death_count, className='my-class', style={'color': 'white'})],
+            html.H5(str(math.floor(smokers_death_count/total_count*100))+" %", className='my-class', style={'color': 'white'})],
                  style={'margin': 5, 'width': 150, 'border-radius': '15px 50px',
                         'backgroundColor': '#668C4A', 'float': 'left', 'padding': 5}),
-
+        # html.Div(style={'margin': 5, 'width': 150,'height':96, 'border-radius': '15px 15px',
+        #               'background-image': 'url("/assets/heart1.jpg")',
+        #              'background-size': 'cover', 'float': 'left', 'padding': 5}),
         html.Div(className="summary-1", children=[
             html.H6('Diabetes Deaths', className='my-class', style={'color': 'white'}),
-            html.H5(diabetes_death_count, className='my-class', style={'color': 'white'})],
-                 style={'margin': 5, 'width': 150, 'border-radius': '15px 50px',
+            html.H5(str(math.floor(diabetes_death_count/total_count*100))+" %", className='my-class', style={'color': 'white'})],
+                 style={'margin': 5, 'width': 150, 'border-radius': '50px 15px',
                         'backgroundColor': '#696969', 'float': 'left', 'padding': 5}),
 
         html.Div(className="summary-1", children=[
             html.H6('Anaemia Deaths', className='my-class', style={'color': 'white'}),
-            html.H5(anaemia_death_count, className='my-class', style={'color': 'white'})],
-                 style={'margin': 5, 'width': 150, 'border-radius': '15px 50px',
+            html.H5(str(math.floor(anaemia_death_count/total_count*100))+" %", className='my-class', style={'color': 'white'})],
+                 style={'margin': 5, 'width': 150, 'border-radius': '50px 15px',
                         'backgroundColor': '#A6BF4B', 'float': 'left', 'padding': 5}),
 
         html.Div(className="summary-1", children=[
-            html.H6('High blood pressure Deaths', className='my-class', style={'color': 'white'}),
-            html.H5(pressure_death_count, className='my-class', style={'color': 'white'})],
-                 style={'margin': 5, 'border-radius': '15px 50px',
+            html.H6('Blood Pressure Deaths', className='my-class', style={'color': 'white'}),
+            html.H5(str(math.floor(pressure_death_count/total_count*100))+" %", className='my-class', style={'color': 'white'})],
+                 style={'margin': 5, 'border-radius': '50px 15px',
                         'backgroundColor': '#2983A6', 'float': 'left', 'padding': 5})
 
     ], style={'margin': '0 auto', 'width': 'fit-content',
@@ -113,8 +111,8 @@ app.layout = html.Div([
     # Graphs Div Design
     html.Div(className="graphs-container", children=[
         html.Div(className="graphs", children=[
-            html.P('Drop Down Menu for all features vs Death Event', className='my-class', id="my-p-element3",
-                   style={'color': 'white', 'fontSize': 16}),
+            html.P('All features vs Death Event', className='my-class', id="my-p-element3",
+                   style={'color': 'white', 'fontSize': 16, 'text-align': 'center'}),
             dcc.Dropdown(id='product',
                          options=[{'label': i, 'value': i} for i in cols],
                          multi=False, value='age'),
@@ -122,20 +120,14 @@ app.layout = html.Div([
                  style={'margin': 25, 'backgroundColor': 'black',
                         'width': '93vw', 'float': 'left', 'padding': 5}),
         html.Div(className="graphs", children=[
-            html.P('Death Event Vs Age Graph', className='my-class', id="my-p-element1",
-                   style={'color': 'white', 'fontSize': 16}),
-            dcc.Graph(figure=fig_age_death)],
-                 style={'margin': 25, 'backgroundColor': 'black',
-                        'width': 600, 'float': 'left', 'padding': 5}),
-        html.Div(className="graphs", children=[
             html.P('Death Event Vs (Smokers & Diabetes) Graph', className='my-class', id="my-p-element2",
-                   style={'color': 'white', 'fontSize': 16}),
+                   style={'color': 'white', 'fontSize': 16, 'text-align': 'center'}),
             dcc.Graph(figure=fig_age_death_smoke_diabetes)],
                  style={'margin': 25, 'backgroundColor': 'black',
-                        'width': 600, 'float': 'left', 'padding': 5}),
+                        'width': '93vw', 'float': 'left', 'padding': 5}),
         html.Div(className="graphs", children=[
             html.P('Death Event Vs Follow-up period (days) Graph', className='my-class', id="my-p-element4",
-                   style={'color': 'white', 'fontSize': 16}),
+                   style={'color': 'white', 'fontSize': 16, 'text-align': 'center'}),
             dcc.Graph(id='time-graph', figure={}),
             dcc.Slider(id='my-slider',
                        min=min_time, max=max_time, value=33,
@@ -149,8 +141,9 @@ app.layout = html.Div([
                  style={'margin': 25, 'backgroundColor': 'black',
                         'width': '93vw', 'float': 'left', 'padding': 5})
     ])
-], style={'backgroundColor': '#58555A',
-          "background-image": 'url(background.jpg)', 'min-height': '285vh'})
+], style={'backgroundColor': '#00A19D',
+          # 'background-image': 'url("/assets/background.jpg")','background-size': 'cover',
+          'min-height': '290vh'})
 
 
 @app.callback(
@@ -170,3 +163,12 @@ def update_graph(input_column, slider_value):
 
 # Run Server
 app.run_server(debug=True)
+'''html.Div(className="graphs", children=[
+            html.P('Death Event Vs Age Graph', className='my-class', id="my-p-element1",
+                   style={'color': 'white', 'fontSize': 16}),
+            dcc.Graph(figure=fig_age_death)],
+                 style={'margin': 25, 'backgroundColor': 'black',
+                        'width': 600, 'float': 'left', 'padding': 5}),'''
+
+'''html.Img(src='/assets/background.jpg', style={'img': {
+           'max-width': '100%', 'max-height': '100%', 'display': 'block'}}),'''
