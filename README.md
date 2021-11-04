@@ -1,2 +1,14 @@
 # Data-Visualization
- #Dash #Data #Visualization for Heart Failure Prediction #Technoligies: #Python #Dash #Plotly #Pandas  #HTML #CSS Dataset : https://www.kaggle.com/andrewmvd/heart-failure-clinical-data
+## Heart Failure Predection Visualization
+Dash Data Visualization Project for Heart Failure Prediction
+
+### Requirements : 
+* Python
+* Dash
+* Plotly
+* Pandas
+* CSS
+* HTML
+
+# Dataset :
+* https://www.kaggle.com/andrewmvd/heart-failure-clinical-data
