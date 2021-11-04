@@ -1,6 +1,6 @@
 # Data-Visualization
 ## Heart Failure Predection Visualization
-![Heart](https://github.com/mo7ashraf/Data-Visualization/tree/main/DashFinalProject/assets/background.jpg "Heart")
+![picture alt](https://github.com/mo7ashraf/Data-Visualization/tree/main/DashFinalProject/assets/background.jpg "Heart")
 Dash Data Visualization Project for Heart Failure Prediction
 
 ### Requirements : 
