@@ -1,7 +1,7 @@
 # Data-Visualization
 ## Heart Failure Predection Visualization
-![plot](./DashFinalProject/assets/background.jpg) \n
-Dash Data Visualization Project for Heart Failure Prediction
+![plot](./DashFinalProject/assets/background.jpg)
+*Dash Data Visualization Project for Heart Failure Prediction
 
 ### Requirements : 
 * Python
